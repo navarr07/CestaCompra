@@ -1,0 +1,192 @@
+<odoo>
+    <!-- Menú principal -->
+    <menuitem id="menu_cesta_root" name="Cesta de la Compra" sequence="1"/>
+
+  <!-- Acciones -->
+    <record id="action_cesta_cliente" model="ir.actions.act_window">
+        <field name="name">Clientes</field>
+        <field name="res_model">cesta.cliente</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_cesta_producto" model="ir.actions.act_window">
+        <field name="name">Productos</field>
+        <field name="res_model">cesta.producto</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_cesta_categoria_producto" model="ir.actions.act_window">
+        <field name="name">Categorías de Producto</field>
+        <field name="res_model">cesta.categoria_producto</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_cesta_ticket" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="res_model">cesta.ticket</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_cesta_linea_ticket" model="ir.actions.act_window">
+        <field name="name">Líneas de Ticket</field>
+        <field name="res_model">cesta.linea_ticket</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Submenú para Clientes -->
+    <menuitem id="menu_cesta_clientes" name="Clientes" parent="menu_cesta_root" sequence="2" action="action_cesta_cliente"/>
+
+    <!-- Submenú para Productos -->
+    <menuitem id="menu_cesta_productos" name="Productos" parent="menu_cesta_root" sequence="3" action="action_cesta_producto"/>
+
+    <!-- Submenú para Categorías -->
+    <menuitem id="menu_cesta_categorias" name="Categorías de Producto" parent="menu_cesta_root" sequence="4" action="action_cesta_categoria_producto"/>
+
+    <!-- Submenú para Tickets -->
+    <menuitem id="menu_cesta_tickets" name="Tickets" parent="menu_cesta_root" sequence="5" action="action_cesta_ticket"/>
+
+    <!-- Submenú para Líneas de Ticket -->
+    <menuitem id="menu_cesta_lineas_ticket" name="Líneas de Ticket" parent="menu_cesta_root" sequence="6" action="action_cesta_linea_ticket"/>
+
+
+
+    <!-- Vistas de Cliente -->
+    <record id="view_cesta_cliente_tree" model="ir.ui.view">
+    <field name="name">cesta.cliente.tree</field>
+    <field name="model">cesta.cliente</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="nombre"/>
+            <field name="email"/>
+            <field name="telefono"/>
+            <field name="saldo_monedero"/>
+            <field name="country_id"/>
+        </tree>
+    </field>
+</record>
+
+
+    <record id="view_cesta_cliente_form" model="ir.ui.view">
+    <field name="name">cesta.cliente.form</field>
+    <field name="model">cesta.cliente</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="nombre"/>
+                    <field name="email"/>
+                    <field name="telefono"/>
+                    <field name="saldo_monedero"/>
+                    <field name="country_id"/>
+                </group>
+                <notebook>
+                    <page string="Tickets">
+                        <field name="ticket_ids">
+                            <tree>
+                                <field name="fecha"/>
+                                <field name="total"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+    <!-- Vistas de Producto -->
+    <record id="view_cesta_producto_tree" model="ir.ui.view">
+        <field name="name">cesta.producto.tree</field>
+        <field name="model">cesta.producto</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="nombre"/>
+                <field name="precio"/>
+                <field name="stock"/>
+            <field name="categoria_id" widget="many2one" options="{'no_create': True}"/> <!-- Mostrar nombre directamente -->            </tree>
+        </field>
+    </record>
+
+    <record id="view_cesta_producto_form" model="ir.ui.view">
+        <field name="name">cesta.producto.form</field>
+        <field name="model">cesta.producto</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="nombre"/>
+                        <field name="precio"/>
+                        <field name="stock"/>
+                        <field name="categoria_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vistas de Categoría de Producto -->
+    <record id="view_cesta_categoria_producto_tree" model="ir.ui.view">
+        <field name="name">cesta.categoria_producto.tree</field>
+        <field name="model">cesta.categoria_producto</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="nombre"/>
+                <field name="descripcion"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_cesta_categoria_producto_form" model="ir.ui.view">
+        <field name="name">cesta.categoria_producto.form</field>
+        <field name="model">cesta.categoria_producto</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="nombre"/>
+                        <field name="descripcion"/>
+                    </group>
+                    <notebook>
+                        <page string="Productos">
+                            <field name="producto_ids">
+                                <tree>
+                                    <field name="nombre"/>
+                                    <field name="precio"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+  <!-- Vista de lista para Tickets -->
+        <record id="view_ticket_tree" model="ir.ui.view">
+            <field name="name">cesta.ticket.tree</field>
+            <field name="model">cesta.ticket</field>
+            <field name="arch" type="xml">
+                <tree string="Tickets">
+                    <field name="fecha" />
+            <field name="cliente_id" widget="many2one" options="{'no_create': True}"/> <!-- Mostrar nombre del cliente -->
+                    <field name="total" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista de lista para Líneas de Ticket -->
+        <record id="view_linea_ticket_tree" model="ir.ui.view">
+            <field name="name">cesta.linea_ticket.tree</field>
+            <field name="model">cesta.linea_ticket</field>
+            <field name="arch" type="xml">
+                <tree string="Líneas de Ticket">
+                    <field name="ticket_name" />
+<field name="producto_id" widget="many2one" options="{'no_create': True}"/>
+                    <field name="cantidad" />
+                    <field name="subtotal" />
+                </tree>
+            </field>
+        </record>
+</odoo>

@@ -1,0 +1,76 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Categorías de Producto -->
+        <record id="categoria_producto_frutas" model="cesta.categoria_producto">
+            <field name="nombre">Frutas</field>
+            <field name="descripcion">Productos frescos como manzanas, plátanos, naranjas...</field>
+        </record>
+        <record id="categoria_producto_bebidas" model="cesta.categoria_producto">
+            <field name="nombre">Bebidas</field>
+            <field name="descripcion">Líquidos refrescantes como jugos, refrescos, agua...</field>
+        </record>
+
+        <!-- Productos -->
+        <record id="producto_manzana" model="cesta.producto">
+            <field name="nombre">Manzana</field>
+            <field name="precio">1.20</field>
+            <field name="stock">100</field>
+            <field name="categoria_id" ref="categoria_producto_frutas"/>
+        </record>
+        <record id="producto_platano" model="cesta.producto">
+            <field name="nombre">Plátano</field>
+            <field name="precio">0.80</field>
+            <field name="stock">150</field>
+            <field name="categoria_id" ref="categoria_producto_frutas"/>
+        </record>
+        <record id="producto_refresco" model="cesta.producto">
+            <field name="nombre">Refresco</field>
+            <field name="precio">1.50</field>
+            <field name="stock">200</field>
+            <field name="categoria_id" ref="categoria_producto_bebidas"/>
+        </record>
+
+        <!-- Clientes -->
+        <record id="cliente_juan" model="cesta.cliente">
+            <field name="nombre">Marcos Navarro</field>
+            <field name="email">marcos.navarro@ejemplo.com</field>
+            <field name="telefono">123456789</field>
+            <field name="saldo_monedero">50.00</field>
+            <field name="country_id" ref="base.es"/>
+        </record>
+        <record id="cliente_maria" model="cesta.cliente">
+            <field name="nombre">Izan Moya</field>
+            <field name="email">izan.moya@ejemplo.com</field>
+            <field name="telefono">987654321</field>
+            <field name="saldo_monedero">75.00</field>
+            <field name="country_id" ref="base.de"/>
+        </record>
+
+        <!-- Tickets -->
+        <record id="ticket_juan" model="cesta.ticket">
+            <field name="fecha">2025-01-09 10:00:00</field>
+            <field name="cliente_id" ref="cliente_juan"/>
+        </record>
+        <record id="ticket_maria" model="cesta.ticket">
+            <field name="fecha">2025-01-09 12:00:00</field>
+            <field name="cliente_id" ref="cliente_maria"/>
+        </record>
+
+        <!-- Líneas de Ticket -->
+        <record id="linea_ticket_juan_1" model="cesta.linea_ticket">
+            <field name="ticket_id" ref="ticket_juan"/>
+            <field name="producto_id" ref="producto_manzana"/>
+            <field name="cantidad">3</field>
+        </record>
+        <record id="linea_ticket_juan_2" model="cesta.linea_ticket">
+            <field name="ticket_id" ref="ticket_juan"/>
+            <field name="producto_id" ref="producto_refresco"/>
+            <field name="cantidad">2</field>
+        </record>
+        <record id="linea_ticket_maria_1" model="cesta.linea_ticket">
+            <field name="ticket_id" ref="ticket_maria"/>
+            <field name="producto_id" ref="producto_platano"/>
+            <field name="cantidad">5</field>
+        </record>
+    </data>
+</odoo>
